@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "efergy_exporter"
-version = "0.1.0"
+version = "0.1.1"
 description = "Export Efergy metrics to Prometheus via rtl_433"
 authors = ["Artanicus <artanicus@nocturnal.fi>"]
 license = "MIT"

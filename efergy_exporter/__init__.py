@@ -50,7 +50,7 @@ async def radio_log(message):
     logging.info(f'radio: {message}')
 
 async def looper():
-    cmd = f'rtl_433 -d "{FLAGS.device}" -f 433.55e6 -R 36 -F json'
+    cmd = f'rtl_433 -d "{FLAGS.device}" -f 433.55e6 -R 36 -F json -v'
     logging.info(f'Starting radio: {cmd}')
     proc = await asyncio.create_subprocess_shell(
         cmd,
