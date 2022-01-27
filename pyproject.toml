@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "efergy_exporter"
+version = "0.1.0"
+description = "Export Efergy metrics to Prometheus via rtl_433"
+authors = ["Artanicus <artanicus@nocturnal.fi>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+absl-py = "^1.0.0"
+prometheus-client = "^0.12.0"
+asyncio = "^3.4.3"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+efergy_exporter = 'efergy_exporter:run'
