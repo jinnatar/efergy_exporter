@@ -12,7 +12,7 @@ RUN poetry build -f wheel
 
 # Temporary image pending PR to upstream
 FROM hertzg/rtl_433:debian
-RUN apt update && apt install -y --no-install-recommends python3-pip
+RUN apt update && apt install -y --no-install-recommends python3-pip && apt remove -y soapysdr0.7-module-audio
 WORKDIR /srv
 COPY --from=builder /build/dist/*.whl ./
 RUN pip3 install *.whl
