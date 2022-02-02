@@ -23,6 +23,10 @@ BATTERY_OK = Gauge(PREFIX + 'battery_ok', 'Battery status', ['id'])
 INTERVAL = Gauge(PREFIX + 'interval', 'Update interval in seconds', ['id'])
 CURRENT = Gauge(PREFIX + 'current', 'Current measurement in Amperes', ['id'])
 
+RADIO_RSSI = Gauge(PREFIX + 'radio_rssi', 'Radio RSSI', ['id'])
+RADIO_SNR = Gauge(PREFIX + 'radio_snr', 'Radio SNR', ['id'])
+RADIO_NOISE = Gauge(PREFIX + 'radio_noise', 'Radio noise level', ['id'])
+
 async def process_metrics(data: str):
     logging.debug('Processing broadcast')
     metrics = json.loads(data)
@@ -37,6 +41,11 @@ async def process_metrics(data: str):
     INTERVAL.labels(id=metrics['id']).set(metrics['interval'])
     CURRENT.labels(id=metrics['id']).set(metrics['current'])
 
+    # Radio metrics
+    RADIO_RSSI.labels(id=metrics['id']).set(metrics['rssi'])
+    RADIO_SNR.labels(id=metrics['id']).set(metrics['snr'])
+    RADIO_NOISE.labels(id=metrics['id']).set(metrics['noise'])
+
 async def _handle_stream(stream: asyncio.streams.StreamReader, function: Callable[[str], None]):
     while True:
         await asyncio.sleep(0)
@@ -50,7 +59,7 @@ async def radio_log(message):
     logging.info(f'radio: {message}')
 
 async def looper():
-    cmd = f'rtl_433 -d "{FLAGS.device}" -f 433.55e6 -R 36 -F json -v'
+    cmd = f'rtl_433 -d "{FLAGS.device}" -f 433.55e6 -R 36 -M level -F json -v'
     logging.info(f'Starting radio: {cmd}')
     proc = await asyncio.create_subprocess_shell(
         cmd,
