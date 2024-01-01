@@ -11,10 +11,10 @@ COPY poetry.lock pyproject.toml ./
 RUN poetry build -f wheel
 
 # Temporary image pending PR to upstream
-FROM hertzg/rtl_433:debian
-RUN apt update && apt install -y --no-install-recommends python3-pip && apt remove -y soapysdr0.7-module-audio
+FROM ghcr.io/hertzg/rtl_433_docker:latest-debian
+RUN apt update && apt install -y --no-install-recommends python3-pip && apt remove -y soapysdr0.8-module-audio
 WORKDIR /srv
 COPY --from=builder /build/dist/*.whl ./
-RUN pip3 install *.whl
+RUN pip3 install --break-system-packages *.whl
 
 ENTRYPOINT ["efergy_exporter"]
